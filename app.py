@@ -3,13 +3,13 @@ from flask import Flask, request,jsonify,render_template
 import pickle
 
 app=Flask(__name__)
-model=pickle.load(open('C:/Hymaa/Data Science/Project 1/Deployment/model.pkl','rb'))
+model=pickle.load(open('model.pkl','rb'))
 
 cols_when_model_builds = model.get_booster().feature_names
 
 @app.route('/')
 def index():
-    return render_template('RevolvingBalance.html')
+    return render_template('RevolvingBalance.html',Predicted_val=0)
 
 
 @app.route('/',methods=['POST'])

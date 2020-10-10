@@ -22,7 +22,7 @@ from sklearn.model_selection import RandomizedSearchCV,GridSearchCV
 #----------Find what the charecter encoding-----
 #import chardet
 
-file="C:/Hymaa/Data Science/Project 1/Data - Copy.csv"
+file="Data - Copy.csv"
 #with open(file,'rb') as rawdata:
 #    result=chardet.detect(rawdata.read(100000))
 #result
@@ -284,6 +284,6 @@ regressor = xgb.XGBRegressor(alpha=15, base_score=0.5, booster='gbtree', colsamp
 
 regressor.fit(XX_train,yy_train)
 
-pickle.dump(regressor,open('C:/Hymaa/Data Science/Project 1/Deployment/model.pkl','wb'))
+pickle.dump(regressor,open('model.pkl','wb'))
 
-model=pickle.load(open('C:/Hymaa/Data Science/Project 1/Deployment/model.pkl','rb'))
+model=pickle.load(open('model.pkl','rb'))
