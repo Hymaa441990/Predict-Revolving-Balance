@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Revolving Balance Prediction</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.Pred{
+  color: red;
+  padding:10px
+}
+
+/* Style the header */
+.header {
+  line-height: 55px
+  position:fixed;
+  background-color: green;
+  text-align: center;
+  color:white;
+  padding-top:5px;
+  padding-bottom:1px;
+  width: 100%;
+
+}
+
+/* Style the header1 */
+.header1 {
+  position:relative;
+  background-color: #f1f1f1;
+  text-align: left;
+  color:black;
+  padding-top:1px;
+  padding-bottom:1px;
+  width: 100%;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}
+
+h2 {
+  font-size: 15px;
+}
+
+p {
+  font-size: 10px;
+}
+
+#footer {
+            position: fixed;
+            padding: 0px 10px 10px 0px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/
+            height: 50px;
+            background: #f1f1f1;
+        }
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 25%;
+  background-color: grey;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-bottom: 10%;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: #f1f1f1;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  background-color: grey;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-bottom: 10%;
+}
+
+/* Right column */
+.rightcolumn1 {
+  float: left;
+  width: 25%;
+  background-color: grey;
+  padding-top: 1px;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-bottom: 10%;
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+/* Style inputs */
+  input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add a background color to the submit button on mouse-over */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+</style>
+<script>
+function validateForm() {
+  var loan_amnt = document.forms["Form1"]["loan_amnt"].value;
+  var annual_inc = document.forms["Form1"]["annual_inc"].value;
+  var debt_income_ratio = document.forms["Form1"]["debt_income_ratio"].value;
+  var numb_credit = document.forms["Form1"]["numb_credit"].value;
+  var Rate_of_intrst = document.forms["Form1"]["Rate_of_intrst"].value;
+  var tot_curr_bal = document.forms["Form1"]["tot_curr_bal"].value;
+  var total_credits = document.forms["Form1"]["total_credits"].value;
+  var total_rec_int = document.forms["Form1"]["total_rec_int"].value;
+  var home_ownership = document.forms["Form1"]["home_ownership"].value;
+  var verification_status = document.forms["Form1"]["verification_status"].value;
+  var initial_list_status = document.forms["Form1"]["initial_list_status"].value;
+  var Experience = document.forms["Form1"]["Experience"].value;
+  var purpose = document.forms["Form1"]["purpose"].value;
+  var Erro_Msg = ""
+
+
+  if (loan_amnt == "")
+  {
+    Erro_Msg=Erro_Msg+"Loan Amount"+";\n"
+  }
+
+  if (annual_inc == "")
+    {
+      Erro_Msg=Erro_Msg+"Annual Income"+";\n"
+  }
+
+  if (debt_income_ratio == "")
+    {
+      Erro_Msg=Erro_Msg+"Debt Income Ration"+";\n"
+  }
+
+  if (numb_credit == "")
+    {
+      Erro_Msg=Erro_Msg+"Number of Credits"+";\n"
+  }
+
+  if (Rate_of_intrst == "")
+    {
+      Erro_Msg=Erro_Msg+"Rate Of Interest"+";\n"
+  }
+
+  if (tot_curr_bal == "")
+    {
+      Erro_Msg=Erro_Msg+"Total Current Balance"+";\n"
+  }
+
+  if (total_credits == "")
+    {
+      Erro_Msg=Erro_Msg+"Total Credits"+";\n"
+  }
+
+  if (total_rec_int == "")
+    {
+      Erro_Msg=Erro_Msg+"Total Interest Paid By The Customer"+";\n"
+  }
+
+  if (home_ownership == "Select")
+    {
+      Erro_Msg=Erro_Msg+"Home Ownership"+";\n"
+  }
+
+  if (verification_status == "Select")
+    {
+      Erro_Msg=Erro_Msg+"Verification Status"+";\n"
+  }
+
+  if (initial_list_status == "Select")
+    {
+      Erro_Msg=Erro_Msg+"Initial List Status"+";\n"
+  }
+
+  if (Experience == "Select")
+    {
+      Erro_Msg=Erro_Msg+"Expereince"+";\n"
+  }
+
+  if (purpose == "Select")
+    {
+      Erro_Msg=Erro_Msg+"Purpose"+";\n"
+  }
+
+  if (Erro_Msg != "") {
+      alert(Erro_Msg+"PLEASE PROVIDE ALL THESE INPUTS");
+
+  }
+}
+
+
+</script>
+
+</head>
+<body>
+
+<div class="header">
+<h1>Predict Revolving Balance</h1>
+</div>
+
+<div id="footer">
+  <center><h2>@Copyrights Team Group 4</h2></center>
+</div>
+
+<div class="row">
+	<div class="header1">
+	<h2>  -------------------------------------------------------------------------Fill below form to get total revolving balance-----------------------------------------------------------------------</h2>
+	</div>
+    <form name="Form1" method="POST" onsubmit="return validateForm()" >
+			<div class="leftcolumn">
+				<div class="card">
+
+					Loan Amount: <input type="text" name="loan_amnt">
+					Annual Income: <input type="text" name="annual_inc">
+					Debt Income Ratio: <input type="text" name="debt_income_ratio">
+					Number Of Credits: <input type="text" name="numb_credit">
+					Rate Of Interest: <input type="text" name="Rate_of_intrst">
+				 </div>
+			</div>
+
+			<div class="rightcolumn">
+				<div class="card">
+
+
+					Total Current Balance: <input type="text" name="tot_curr_bal">
+					Total Credits: <input type="text" name="total_credits">
+					Total Interest Paid By The Customer: <input type="text" name="total_rec_int">
+					<label for="home_ownership">Home Ownership</label>
+							  <select id="home_ownership" name="home_ownership">
+								<option value="Select">SELECT</option>
+								<option value="OWN">Own</option>
+								<option value="MORTAGE">Mortage</option>
+								<option value="RENT">Rent</option>
+								<option value="OTHER">Other</option>
+								<option value="NONE">None</option>
+								<option value="ANY">Any</option>
+							  </select>
+					<label for="verification_status">Verification Status</label>
+					  <select id="verification_status" name="verification_status">
+						<option value="Select">SELECT</option>
+						<option value="Not Verified">Not Verified</option>
+						<option value="Source Verified">Source Verified</option>
+						<option value="Verified">Verified</option>
+					  </select>
+
+				 </div>
+			</div>
+
+			<div class="rightcolumn">
+				 <div class="card">
+
+					<label for="initial_list_status">Initial List Status</label>
+					  <select id="initial_list_status" name="initial_list_status">
+						<option value="Select">SELECT</option>
+						<option value="f">Forwarded</option>
+						<option value="w">Waiting</option>
+					  </select>
+
+					<label for="Experience">Experience</label>
+					  <select id="Experience" name="Experience">
+						<option value="Select">SELECT</option>
+						<option value="None">None</option>
+						<option value="< 1 year">< 1 year</option>
+						<option value="2 years">2 years</option>
+						<option value="3 years">3 years</option>
+						<option value="4 years">4 years</option>
+						<option value="5 years">5 years</option>
+						<option value="6 years">6 years</option>
+						<option value="7 years">7 years</option>
+						<option value="8 years">8 years</option>
+						<option value="9 years">9 years</option>
+						<option value="10 years">10+ years</option>
+					  </select>
+
+				   <label for="purpose">Purpose</label>
+					  <select id="purpose" name="purpose">
+						<option value="Select">SELECT</option>
+						<option value="car">Car</option>
+						<option value="credit_card">Credit Card</option>
+						<option value="debt_consolidation">Debt Consolidation</option>
+						<option value="educational">Educational</option>
+						<option value="home_improvement">Home Improvement</option>
+						<option value="house">House</option>
+						<option value="major_purchase">Major Purpose</option>
+						<option value="medical">Medical</option>
+						<option value="moving">Moving</option>
+						<option value="renewable_energy">Renewable Energy</option>
+						<option value="small_business">Small Bussiness</option>
+						<option value="vacation">Vacation</option>
+						<option value="Wedding">Wedding</option>
+						<option value="Other">Other</option>
+					  </select><br>
+					  <p> </p>
+					  <input type="submit" value="Submit" onsubmit="return validateForm()">
+					  <br>
+					  <p> </p>
+					  <b>Predicted Total Revolving Balance is:</b>
+					  <div class="Pred">
+						  <center><b>{{Predicted_val}}</b></center>
+					  </div>
+					  <div >
+						  <p> </p>
+					  </div>
+
+
+				</div>
+			 </div>
+
+        </form>
+		 <div class="rightcolumn">
+			<div class="card">
+			 <center><h2>Prediction Analysis<br>Details<br><br></h2></center>
+			 <p><li>Trained on <b>621145</b> records</li></p>
+			 <p><li>RMSE on train data:  <b>18268.346009</b></li></p>
+			 <p><li>RMSE on test data:   <b>18825.09266</b></li></p>
+			 <p> </p>
+			 <br><br>
+			 <br>
+			 <center><h2>Team Group 4</h2></center>
+					<p><li>Amit Mishra</li></p>
+					<p><li>Hymavatahi Samsani</li></p>
+					<p><li>Mandar S. Malekar</li></p>
+			   <p><li>Vijay Sonawane</li></p>
+			</div>
+
+		 </div>
+
+
+
+
+</div>
+
+
+
+</body>
+</html>
