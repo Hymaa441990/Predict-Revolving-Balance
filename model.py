@@ -20,12 +20,12 @@ from sklearn.model_selection import RandomizedSearchCV,GridSearchCV
 
 
 #----------Find what the charecter encoding-----
-import chardet
+#import chardet
 
 file="C:/Hymaa/Data Science/Project 1/Data - Copy.csv"
-with open(file,'rb') as rawdata:
-    result=chardet.detect(rawdata.read(100000))
-result
+#with open(file,'rb') as rawdata:
+#    result=chardet.detect(rawdata.read(100000))
+#result
 
 #Charecter encoding done in ascii
 

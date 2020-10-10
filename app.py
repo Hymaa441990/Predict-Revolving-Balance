@@ -3,15 +3,15 @@ from flask import Flask, request,jsonify,render_template
 import pickle
 
 app=Flask(__name__)
-#model=pickle.load(open('C:/Hymaa/Data Science/Project 1/Deployment/model.pkl','rb'))
+model=pickle.load(open('C:/Hymaa/Data Science/Project 1/Deployment/model.pkl','rb'))
 
-#cols_when_model_builds = model.get_booster().feature_names
+cols_when_model_builds = model.get_booster().feature_names
 
 @app.route('/')
 def index():
     return render_template('RevolvingBalance.html')
 
-'''
+
 @app.route('/',methods=['POST'])
 def Get_All_Details():    
     if request.method == 'POST':
@@ -166,7 +166,7 @@ def Get_All_Details():
           return render_template('RevolvingBalance.html',Predicted_val=format(output))
 
        
-'''      
+    
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False)
     
