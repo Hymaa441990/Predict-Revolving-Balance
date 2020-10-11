@@ -158,12 +158,16 @@ def Get_All_Details():
           
           pred_df = pred_df.append(new_row, ignore_index=True)
           
-          print(new_row)
+          
           pred_df = pred_df[cols_when_model_builds]
           prediction=model.predict(pred_df)
           output=round(prediction[0],2)
-          print(output)
-          return render_template('RevolvingBalance.html',Predicted_val=format(output))
+          
+          return render_template('Prediction.html',Predicted_val=format(output),tot_curr_bal=format(tot_curr_bal[0]),annual_inc=format(annual_inc[0]),debt_income_ratio=format(debt_income_ratio[0]),numb_credit=format(numb_credit[0]),
+       loan_amnt=int(loan_amnt[0]),total_credits=format(total_credits[0]),total_rec_int=format(total_rec_int[0]),
+       Rate_of_intrst=format(Rate_of_intrst[0]),home_ownership=format(home_ownership[0]),verification_status=format(verification_status[0]),initial_list_status=format(initial_list_status[0]),
+       Experience=format(Experience[0]),purpose=format(purpose[0]))
+
 
        
     
