@@ -146,21 +146,6 @@ body {
   width: 75%;
 }
 
-/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
-    width: 100%;
-    padding: 0;
-  }
-}
-
-/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
-@media screen and (max-width: 400px) {
-  .topnav a {
-    float: none;
-    width: 100%;
-  }
-}
 
 h2 {
   font-size: 15px;
@@ -356,7 +341,7 @@ input[type=submit]:hover {
   user-select: none;
 }
 .sidebar {
-            height: 72vh;
+            height: auto;
             width: 25px;
             position: absolute;
             z-index: 1;
@@ -420,6 +405,22 @@ p.test1 {
             }
         }
 
+	
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn,.header,.header1,.txt,.txt1,.sidebar {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}
 </style>
 
 
