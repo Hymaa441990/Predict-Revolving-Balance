@@ -46,41 +46,4 @@ This dataset consists of <b>800000</b> observations
 <b>colle_amt</b>: total collection amount ever owed    
 <b>curr_bal</b>: total current balance of all accounts    
 
-import numpy as np    
-import pandas as pd    
-import seaborn as sns    
-    
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder    
-import warnings    
-warnings.filterwarnings("ignore")    
-    
-from sklearn.svm import SVC    
-from sklearn.metrics import confusion_matrix    
-    
-# No warnings about setting value on copy of slice    
-pd.options.mode.chained_assignment = None    
-    
-# Display up to 60 columns of a dataframe    
-pd.set_option('display.max_columns', 60)    
-    
-# Matplotlib visualization    
-import matplotlib.pyplot as plt    
-#%matplotlib inline    
-    
-# Set default font size    
-plt.rcParams['font.size'] = 24    
-    
-# Internal ipython tool for setting figure size    
-from IPython.core.pylabtools import figsize    
-    
-# Seaborn for visualization    
-import seaborn as sns    
-sns.set(font_scale = 2)    
-    
-# Splitting data into training and testing    
-from sklearn.model_selection import train_test_split    
-    
-#Missing values    
-import missingno as mno    
-    
-from sklearn import linear_model    
+ 
